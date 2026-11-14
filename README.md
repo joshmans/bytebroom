@@ -1,0 +1,102 @@
+<p align="center">
+  <img src="docs/icon.png" width="128" alt="ByteBroom icon">
+</p>
+
+<h1 align="center">ByteBroom</h1>
+
+<p align="center">
+  Finds what is safe to delete on your Mac and frees the space.<br>
+  Build folders, caches, logs, simulators, leftover app files: sorted by size, with a reason for every item.
+</p>
+
+<p align="center">
+  <a href="https://github.com/p32929/bytebroom/releases/latest"><b>Download for macOS</b></a>
+</p>
+
+---
+
+## Screenshots
+
+| | Light | Dark |
+|---|---|---|
+| **Clean up** | ![Clean up view, light mode](docs/clean-light.png) | ![Clean up view, dark mode](docs/clean-dark.png) |
+| **Apps** | ![Apps view, light mode](docs/apps-light.png) | ![Apps view, dark mode](docs/apps-dark.png) |
+
+ByteBroom follows your macOS appearance. You can switch theme in the bottom-right corner, next to the version number, which opens the About window.
+
+## What it does
+
+ByteBroom scans your whole disk, then puts everything over 50 MB that it knows how to judge into groups. Each item says why it is there, so you decide with the facts in front of you.
+
+**Safe to delete:** these come back by themselves, or with a rebuild or reinstall.
+
+- **Project build folders:** `node_modules`, `target`, `build`, `.dart_tool`, `Pods`, `.venv` and more, for JavaScript, Rust, Flutter, iOS, Android, Python, Go, Swift, .NET, PHP, Elixir, C/C++, Zig, Haskell and Godot projects.
+- **Package manager caches:** npm, Yarn, pnpm, Bun, Cargo, Gradle, pip, uv, Go modules, Dart pub and others.
+- **Xcode build data:** DerivedData and module caches.
+- **App caches and logs.**
+
+**Look first:** you lose what is inside, so check before deleting.
+
+- Trash, iOS simulators, Android emulators, Docker and VM data, Downloads, temporary files, backups and archives, and caches that sometimes hold logins or downloaded models.
+
+**Apps:** every installed app, with the files it has spread around your system (Application Support, caches, preferences, containers, launch agents and more). Tick the box next to an app to remove it completely.
+
+## Built to not delete the wrong thing
+
+- **A folder git tracks is never offered.** A `build` folder with committed files in it is source, not junk. Ambiguous names such as `dist` or `bin` are only offered when your `.gitignore` says they are generated.
+- **Projects need proof.** A `target` folder only counts if a `Cargo.toml` sits next to it; `node_modules` needs a `package.json`, and so on.
+- **Top-level folders are off limits.** ByteBroom refuses to remove your home folder, anything above it, or a system folder such as `/Library/Caches` itself.
+- **Links are removed, never followed.** Deleting a symlink leaves what it points to.
+- **You choose how:** *Move to Trash* can be undone; *Delete permanently* frees the space right away. A progress window shows each item as it goes.
+
+## Install
+
+1. Download the `.dmg` from the [latest release](https://github.com/p32929/bytebroom/releases/latest).
+2. Open it and drag **ByteBroom** onto **Applications**.
+3. Open ByteBroom from Launchpad, Spotlight or the Applications folder.
+
+**"ByteBroom cannot be opened" the first time?** The app isn't notarized by Apple yet, so macOS asks you to allow it once:
+open **System Settings → Privacy & Security**, scroll down, and click **Open Anyway** next to ByteBroom.
+Or run this in Terminal:
+
+```sh
+xattr -dr com.apple.quarantine /Applications/ByteBroom.app
+```
+
+**Let it see everything:** add ByteBroom under **System Settings → Privacy & Security → Full Disk Access**. Without this, macOS hides some folders and ByteBroom finds less.
+
+Releases are built for Apple Silicon Macs. On an Intel Mac, build from source.
+
+## Build from source
+
+You need [Rust](https://rustup.rs).
+
+```sh
+git clone https://github.com/p32929/bytebroom.git
+cd bytebroom
+./run.sh                        # build and open the app
+```
+
+To install it into `/Applications` as a normal app:
+
+```sh
+cargo install cargo-bundle      # once
+./install.sh
+```
+
+`./release.sh` builds the `.dmg` and `.zip` that go on a GitHub release, into `dist/`.
+
+## Options
+
+| Option | What it does |
+|---|---|
+| `--print` | Scan and print the list in the terminal, no window |
+| `--apps` | Open on the Apps view |
+| `--show=<name>` | Open on one group or app, e.g. `--show="Logs"` |
+| `--light`, `--dark` | Start in that theme instead of following macOS |
+
+Pass them after `./run.sh`, for example `./run.sh --print`.
+
+## Requirements
+
+macOS only. ByteBroom relies on macOS folders, the macOS Trash and app bundles, so it refuses to build anywhere else.

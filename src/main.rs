@@ -16,6 +16,8 @@ use std::sync::atomic::{AtomicU64, Ordering};
 use std::sync::{mpsc, Arc, Mutex};
 use trash::macos::{DeleteMethod, TrashContextExtMacos};
 
+const REPO_URL: &str = "https://github.com/p32929/bytebroom";
+
 // Files smaller than this still count toward their folder, but get no row of their own.
 const MIN_FILE: u64 = 1 << 20;
 
@@ -168,6 +170,7 @@ struct App {
     rx: Option<mpsc::Receiver<Vec<Group>>>,
     seen: Arc<AtomicU64>,
     confirming: bool,
+    about: bool, // the About dialog, opened from the version number
     deleting: Option<mpsc::Receiver<Deleted>>,
     progress: Arc<Mutex<Progress>>,
     status: Option<String>,
@@ -179,24 +182,26 @@ impl App {
         apply_style(ctx);
         // Follows the macOS appearance unless started with --light or --dark.
         let mut start_in_apps = false; // --apps opens on the Apps view
+        let mut show = None; // --show=<group or app name> opens on that entry
         for arg in std::env::args() {
             match arg.as_str() {
                 "--light" => ctx.set_theme(egui::ThemePreference::Light),
                 "--dark" => ctx.set_theme(egui::ThemePreference::Dark),
                 "--apps" => start_in_apps = true,
-                _ => {}
+                a => show = a.strip_prefix("--show=").map(String::from).or(show),
             }
         }
         let mut app = App {
             home: home_dir(),
             groups: None,
             view: if start_in_apps { View::Apps } else { View::Clean },
-            selected: None,
-            selected_app: None,
+            selected: show.clone(),
+            selected_app: show,
             filter: String::new(),
             rx: None,
             seen: Arc::new(AtomicU64::new(0)),
             confirming: false,
+            about: false,
             deleting: None,
             progress: Arc::default(),
             status: None,
@@ -671,6 +676,10 @@ impl eframe::App for App {
                 ui.with_layout(egui::Layout::right_to_left(egui::Align::Center), |ui| {
                     egui::widgets::global_theme_preference_buttons(ui);
                     ui.separator();
+                    let version = egui::RichText::new(concat!("v", env!("CARGO_PKG_VERSION"))).small().weak();
+                    if ui.add(egui::Button::new(version).frame(false)).on_hover_text("About ByteBroom").clicked() {
+                        self.about = true;
+                    }
                     if ui.add_enabled(!scanning && !deleting, egui::Button::new(format!("{}  Rescan", icons::ARROWS_CLOCKWISE))).clicked() {
                         self.start_scan(ctx);
                     }
@@ -793,6 +802,28 @@ impl eframe::App for App {
                     }
                 });
             });
+        }
+
+        if self.about {
+            let modal = egui::Modal::new(egui::Id::new("about")).show(ctx, |ui| {
+                ui.set_width(340.0);
+                ui.vertical_centered(|ui| {
+                    let icon = egui::Image::from_bytes("bytes://icon.png", include_bytes!("../docs/icon.png"));
+                    ui.add(icon.fit_to_exact_size(egui::vec2(96.0, 96.0)));
+                    ui.label(egui::RichText::new("ByteBroom").size(22.0).strong());
+                    ui.weak(concat!("Version ", env!("CARGO_PKG_VERSION")));
+                    ui.add_space(10.0);
+                    ui.visuals_mut().hyperlink_color = p.green; // links stand out only in here
+                    ui.hyperlink_to(format!("{}  github.com/p32929/bytebroom", icons::GITHUB_LOGO), REPO_URL);
+                    ui.hyperlink_to(format!("{}  p32929.github.io", icons::GLOBE), "https://p32929.github.io/");
+                    ui.add_space(10.0);
+                    ui.button("Close").clicked()
+                })
+                .inner
+            });
+            if modal.inner || modal.should_close() {
+                self.about = false;
+            }
         }
 
         if let Some((path, is_dir)) = open {
