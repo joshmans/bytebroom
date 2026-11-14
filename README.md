@@ -84,6 +84,12 @@ cargo install cargo-bundle      # once
 ./install.sh
 ```
 
+To remove it again, with its caches, Desktop shortcut, privacy permissions and build output (your clone stays):
+
+```sh
+./uninstall.sh
+```
+
 `./release.sh` builds the `.dmg` and `.zip` that go on a GitHub release, into `dist/`.
 
 ## Options

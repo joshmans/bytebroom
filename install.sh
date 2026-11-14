@@ -14,6 +14,6 @@ rm -rf /Applications/ByteBroom.app
 cp -R target/release/bundle/osx/ByteBroom.app /Applications/
 
 # Create a desktop shortcut (optional)
-ln -sf /Applications/ByteBroom.app "$HOME/Desktop/ByteBroom.app"
+ln -sfn /Applications/ByteBroom.app "$HOME/Desktop/ByteBroom.app"
 
 echo "Installation complete! Open ByteBroom from Launchpad, Spotlight or /Applications."
