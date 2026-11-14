@@ -22,6 +22,3 @@ egui_extras = { version = "0.36.2", features = ["image", "file"] }
 image = { version = "0.25.10", default-features = false, features = ["png"] }
 rayon = "1.12.0"
 trash = "5.2.9"
-
-[build-dependencies]
-cargo-bundle = "0.10.0"
