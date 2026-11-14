@@ -1,0 +1,27 @@
+[package]
+name = "bytebroom"
+version = "0.1.0"
+edition = "2024"
+
+[package.metadata.bundle]
+name = "ByteBroom"
+identifier = "com.p32929.bytebroom"
+icon = ["icon.icns"]
+version = "0.1.0"
+copyright = "Copyright (c) 2026 Your Name. All rights reserved."
+category = "public.app-category.utilities"
+short_description = "A macOS disk space cleaner"
+long_description = """
+ByteBroom helps you clean up disk space by identifying and deleting large, unnecessary files and folders.
+"""
+
+[dependencies]
+eframe = "0.36.2"
+egui-phosphor = "0.14.0"
+egui_extras = { version = "0.36.2", features = ["image", "file"] }
+image = { version = "0.25.10", default-features = false, features = ["png"] }
+rayon = "1.12.0"
+trash = "5.2.9"
+
+[build-dependencies]
+cargo-bundle = "0.10.0"
