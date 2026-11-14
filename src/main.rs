@@ -1,3 +1,6 @@
+#[cfg(not(target_os = "macos"))]
+compile_error!("ByteBroom only supports macOS.");
+
 mod apps;
 mod rules;
 
