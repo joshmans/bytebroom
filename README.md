@@ -15,6 +15,8 @@
 
 ---
 
+Most disk cleaners guess by folder name and can wipe something you needed, or they just show a pie chart and leave the deciding to you. ByteBroom only offers what it can prove is safe, says why next to every item, and never touches a folder git tracks. It is free, open source and runs fully on your Mac.
+
 ## Screenshots
 
 | | Light | Dark |
@@ -30,24 +32,24 @@ ByteBroom scans your whole disk, then puts everything over 50 MB that it knows h
 
 **Safe to delete:** these come back by themselves, or with a rebuild or reinstall.
 
-- **Project build folders:** `node_modules`, `target`, `build`, `.dart_tool`, `Pods`, `.venv` and more, for JavaScript, Rust, Flutter, iOS, Android, Python, Go, Swift, .NET, PHP, Elixir, C/C++, Zig, Haskell and Godot projects.
-- **Package manager caches:** npm, Yarn, pnpm, Bun, Cargo, Gradle, pip, uv, Go modules, Dart pub and others.
-- **Xcode build data:** DerivedData and module caches.
-- **App caches and logs.**
+1. **Project build folders:** `node_modules`, `target`, `build`, `.dart_tool`, `Pods`, `.venv` and more, for JavaScript, Rust, Flutter, iOS, Android, Python, Go, Swift, .NET, PHP, Elixir, C/C++, Zig, Haskell and Godot projects.
+2. **Package manager caches:** npm, Yarn, pnpm, Bun, Cargo, Gradle, pip, uv, Go modules, Dart pub and others.
+3. **Xcode build data:** DerivedData and module caches.
+4. **App caches and logs.**
 
 **Look first:** you lose what is inside, so check before deleting.
 
-- Trash, iOS simulators, Android emulators, Docker and VM data, Downloads, temporary files, backups and archives, and caches that sometimes hold logins or downloaded models.
+1. Trash, iOS simulators, Android emulators, Docker and VM data, Downloads, temporary files, backups and archives, and caches that sometimes hold logins or downloaded models.
 
 **Apps:** every installed app, with the files it has spread around your system (Application Support, caches, preferences, containers, launch agents and more). Tick the box next to an app to remove it completely.
 
 ## Built to not delete the wrong thing
 
-- **A folder git tracks is never offered.** A `build` folder with committed files in it is source, not junk. Ambiguous names such as `dist` or `bin` are only offered when your `.gitignore` says they are generated.
-- **Projects need proof.** A `target` folder only counts if a `Cargo.toml` sits next to it; `node_modules` needs a `package.json`, and so on.
-- **Top-level folders are off limits.** ByteBroom refuses to remove your home folder, anything above it, or a system folder such as `/Library/Caches` itself.
-- **Links are removed, never followed.** Deleting a symlink leaves what it points to.
-- **You choose how:** *Move to Trash* can be undone; *Delete permanently* frees the space right away. A progress window shows each item as it goes.
+1. **A folder git tracks is never offered.** A `build` folder with committed files in it is source, not junk. Ambiguous names such as `dist` or `bin` are only offered when your `.gitignore` says they are generated.
+2. **Projects need proof.** A `target` folder only counts if a `Cargo.toml` sits next to it; `node_modules` needs a `package.json`, and so on.
+3. **Top-level folders are off limits.** ByteBroom refuses to remove your home folder, anything above it, or a system folder such as `/Library/Caches` itself.
+4. **Links are removed, never followed.** Deleting a symlink leaves what it points to.
+5. **You choose how:** *Move to Trash* can be undone; *Delete permanently* frees the space right away. A progress window shows each item as it goes.
 
 ## Install
 
@@ -106,3 +108,15 @@ Pass them after `./run.sh`, for example `./run.sh --print`.
 ## Requirements
 
 macOS only. ByteBroom relies on macOS folders, the macOS Trash and app bundles, so it refuses to build anywhere else.
+
+## Contributing
+
+Contributions are very welcome, thank you! Before you start on a pull request, please open an issue and tell me what you would like to add or change. That way we can agree on it first, and your time is not wasted on something that might not fit. Thanks for helping make ByteBroom better.
+
+## Share
+
+<a href="https://p32929.github.io/share/?repo=bytebroom"><img src="https://p32929.github.io/readme/share.svg" alt="Share this with your friends in just a click" width="420"></a>
+
+## Support
+
+<a href="https://p32929.github.io/support/"><img src="https://p32929.github.io/readme/support.svg" alt="If you like my works and want to support me, feel free to support" width="420"></a>
