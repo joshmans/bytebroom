@@ -65,7 +65,7 @@ Or run this in Terminal:
 xattr -dr com.apple.quarantine /Applications/ByteBroom.app
 ```
 
-**Let it see everything:** add ByteBroom under **System Settings → Privacy & Security → Full Disk Access**. Without this, macOS hides some folders and ByteBroom finds less.
+**Let it see everything:** add ByteBroom under **System Settings → Privacy & Security → Full Disk Access**. Without this, macOS hides some folders and ByteBroom finds less. If it is missing, ByteBroom explains this once on launch, before scanning, and opens the right settings pane for you; otherwise macOS would ask folder by folder during the scan.
 
 Releases are built for Apple Silicon Macs. On an Intel Mac, build the Intel release yourself (see below) or build from source.
 
